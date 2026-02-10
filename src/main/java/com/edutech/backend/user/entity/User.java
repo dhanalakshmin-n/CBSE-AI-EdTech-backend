@@ -37,4 +37,11 @@ public class User {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "student_class")
+    private String studentClass;
+
+    @Column(name = "school_name")
+    private String schoolName;
+
 }

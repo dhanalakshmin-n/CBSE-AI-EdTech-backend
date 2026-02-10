@@ -1,6 +1,7 @@
 package com.edutech.backend.user.controller;
 
 import com.edutech.backend.user.dto.AdminSignupRequest;
+import com.edutech.backend.user.dto.CreateStudentRequest;
 import com.edutech.backend.user.entity.User;
 import com.edutech.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,4 +22,9 @@ public class AdminController {
                 request.getPassword()
         );
     }
+    @PostMapping("/students")
+    public User createStudent(@RequestBody CreateStudentRequest request) {
+    return userService.createStudent(request);
+}
+
 }

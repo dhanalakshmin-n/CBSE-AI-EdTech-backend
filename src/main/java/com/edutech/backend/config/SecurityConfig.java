@@ -22,7 +22,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/auth/**").permitAll()
             .requestMatchers("/api/admin/signup").permitAll() // TEMP
-            .requestMatchers("/api/admin/**").authenticated()
+            .requestMatchers("/api/admin/**").hasRole("ADMIN")
             .anyRequest().permitAll()
 )
 
