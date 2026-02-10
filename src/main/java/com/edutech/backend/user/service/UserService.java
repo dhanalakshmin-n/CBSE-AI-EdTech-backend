@@ -8,7 +8,7 @@ import com.edutech.backend.user.enums.Role;
 import com.edutech.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;          //spring marks that this class is a service.
-
+import java.util.List;
 
 
 import java.time.LocalDateTime;  //for setting createdAt timestamp when creating a user.
@@ -83,5 +83,25 @@ public class UserService {
 
     return userRepository.save(student);
 }
+    public List<User> getAllStudents() {
+    return userRepository.findAll()
+            .stream()
+            .filter(user -> user.getRole() == Role.STUDENT)
+            .toList();
+}
+
+public void deleteStudent(Long studentId) {
+
+    User user = userRepository.findById(studentId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (user.getRole() != Role.STUDENT) {
+        throw new RuntimeException("Only students can be deleted");
+    }
+
+    userRepository.deleteById(studentId);
+}
+
+
 
 }
