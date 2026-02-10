@@ -1,6 +1,7 @@
 package com.edutech.backend.user.service;
 
 import com.edutech.backend.security.JwtUtil;
+import com.edutech.backend.user.dto.CreateStudentRequest;
 import com.edutech.backend.user.dto.LoginResponse;
 import com.edutech.backend.user.entity.User;
 import com.edutech.backend.user.enums.Role;
@@ -60,6 +61,27 @@ public class UserService {
             .role(user.getRole())
             .token(token)
             .build();
+}
+
+    public User createStudent(CreateStudentRequest request) {
+
+    userRepository.findByEmail(request.getEmail())
+            .ifPresent(user -> {
+                throw new RuntimeException("Student already exists with this email");
+            });
+
+    User student = User.builder()
+            .name(request.getName())
+            .email(request.getEmail())
+            .password(request.getPassword()) // hashing later
+            .role(Role.STUDENT)
+            .enabled(true)
+            .studentClass(request.getStudentClass())
+            .schoolName(request.getSchoolName())
+            .createdAt(LocalDateTime.now())
+            .build();
+
+    return userRepository.save(student);
 }
 
 }
