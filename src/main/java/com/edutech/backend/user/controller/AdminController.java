@@ -6,6 +6,7 @@ import com.edutech.backend.user.entity.User;
 import com.edutech.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -26,5 +27,16 @@ public class AdminController {
     public User createStudent(@RequestBody CreateStudentRequest request) {
     return userService.createStudent(request);
 }
+    @GetMapping("/students")
+    public List<User> getAllStudents() {
+    return userService.getAllStudents();
+}
+
+@DeleteMapping("/students/{id}")
+public void deleteStudent(@PathVariable Long id) {
+    userService.deleteStudent(id);
+}
+
+
 
 }
