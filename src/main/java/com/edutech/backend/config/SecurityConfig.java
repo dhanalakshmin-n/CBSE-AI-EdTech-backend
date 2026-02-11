@@ -23,6 +23,8 @@ public class SecurityConfig {
             .requestMatchers("/api/auth/**").permitAll()
             .requestMatchers("/api/admin/signup").permitAll() // TEMP
             .requestMatchers("/api/admin/**").hasRole("ADMIN")
+            .requestMatchers("/api/admin/quizzes/**").hasRole("ADMIN")
+
             .anyRequest().permitAll()
 )
 
