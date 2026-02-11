@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +28,7 @@ public class MaterialService {
         Long subjectId,
         String displayName,
         MultipartFile file
-) throws Exception {
+) throws IOException {
 
     // Validate subject exists
     Subject subject = subjectRepository.findById(subjectId)

@@ -11,6 +11,8 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
 
     
 List<Quiz> findByQuestionTextContainingIgnoreCase(String keyword);
+
+
 }
 
 
