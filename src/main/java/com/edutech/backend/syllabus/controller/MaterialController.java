@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.MediaType;
+import java.util.List;
+import com.edutech.backend.syllabus.dto.UpdateMaterialRequest;
+
 
 
 @RestController
@@ -26,5 +29,31 @@ public Material uploadMaterial(
 ) throws Exception {
     return materialService.uploadMaterial(classLevel, subjectId, displayName, file);
 }
+
+//get material by class
+
+@GetMapping("/class/{classLevel}")
+public List<Material> getMaterialsByClass(
+        @PathVariable Integer classLevel
+) {
+    return materialService.getMaterialsByClass(classLevel);
+}
+
+//delete material by id
+@DeleteMapping("/{id}")
+public String deleteMaterial(@PathVariable Long id) {
+    materialService.deleteMaterial(id);
+    return "Material deleted successfully";
+}
+
+//update material by id
+@PutMapping("/{id}")
+public Material updateMaterial(
+        @PathVariable Long id,
+        @RequestBody UpdateMaterialRequest request
+) {
+    return materialService.updateMaterial(id, request.getDisplayName());
+}
+
 
 }

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 
 @Service
@@ -57,5 +58,42 @@ public class MaterialService {
 
     return materialRepository.save(material);
 }
+
+    //get material by class logic
+    public List<Material> getMaterialsByClass(Integer classLevel) {
+    return materialRepository.findByClassLevel(classLevel);
+}
+
+    //delete material by id logic
+public void deleteMaterial(Long materialId) {
+
+    Material material = materialRepository.findById(materialId)
+            .orElseThrow(() -> new RuntimeException("Material not found"));
+
+    // delete file from disk
+    Path filePath = Paths.get(material.getFilePath());
+
+    try {
+        Files.deleteIfExists(filePath);
+    } catch (Exception e) {
+        throw new RuntimeException("Failed to delete file from disk");
+    }
+
+    // delete from DB
+    materialRepository.delete(material);
+}
+
+//update material logic
+public Material updateMaterial(Long id, String displayName) {
+
+    Material material = materialRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Material not found"));
+
+    material.setDisplayName(displayName);
+
+    return materialRepository.save(material);
+}
+
+
 }
 
