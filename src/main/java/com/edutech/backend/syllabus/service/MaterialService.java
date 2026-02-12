@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import com.edutech.backend.user.entity.User;
+import com.edutech.backend.user.repository.UserRepository;
 
 
 @Service
@@ -22,6 +24,9 @@ public class MaterialService {
 
     private final MaterialRepository materialRepository;
     private final SubjectRepository subjectRepository;
+    private final UserRepository userRepository;
+    
+
 
  public Material uploadMaterial(
         Integer classLevel,
@@ -94,6 +99,61 @@ public Material updateMaterial(Long id, String displayName) {
 
     return materialRepository.save(material);
 }
+
+//get material by id logic
+public List<Material> getMaterialsForStudent(Long userId) {
+
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (user.getStudentClass() == null) {
+        throw new RuntimeException("Student class not assigned");
+    }
+
+    Integer classLevel = Integer.parseInt(user.getStudentClass());
+
+    return materialRepository.findByClassLevel(classLevel);
+}
+
+//get material by id logic with subject filter
+
+public List<Material> getMaterialsForStudent(Long userId, Long subjectId) {
+
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (user.getStudentClass() == null) {
+        throw new RuntimeException("Student class not assigned");
+    }
+
+    Integer classLevel = Integer.parseInt(user.getStudentClass());
+
+    if (subjectId != null) {
+        return materialRepository.findByClassLevelAndSubject_Id(classLevel, subjectId);
+
+    }
+
+    return materialRepository.findByClassLevel(classLevel);
+}
+//view material logic
+
+public Material getMaterialForStudent(Long userId, Long materialId) {
+
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    Integer classLevel = Integer.parseInt(user.getStudentClass());
+
+    Material material = materialRepository.findById(materialId)
+            .orElseThrow(() -> new RuntimeException("Material not found"));
+
+    if (!material.getClassLevel().equals(classLevel)) {
+        throw new RuntimeException("Unauthorized access to material");
+    }
+
+    return material;
+}
+
 
 
 }
