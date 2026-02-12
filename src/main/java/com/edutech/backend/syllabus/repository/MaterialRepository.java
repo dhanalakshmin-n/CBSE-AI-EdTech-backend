@@ -8,4 +8,6 @@ import java.util.List;
 public interface MaterialRepository extends JpaRepository<Material, Long> {
 
     List<Material> findByClassLevel(Integer classLevel);
+    List<Material> findByClassLevelAndSubject_Id(Integer classLevel, Long subjectId);
+
 }
