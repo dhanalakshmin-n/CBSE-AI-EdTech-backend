@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
@@ -37,6 +38,19 @@ public void deleteStudent(@PathVariable Long id) {
     userService.deleteStudent(id);
 }
 
+
+
+// Admin endpoints
+
+@GetMapping("/admins")
+public List<User> getAllAdmins() {
+    return userService.getAllAdmins();
+}
+
+@DeleteMapping("/{id}")
+public void deleteAdmin(@PathVariable Long id) {
+    userService.deleteAdmin(id);
+}
 
 
 }

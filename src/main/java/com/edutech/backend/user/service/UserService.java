@@ -104,4 +104,25 @@ public void deleteStudent(Long studentId) {
 
 
 
+//admin
+public List<User> getAllAdmins() {
+    return userRepository.findAll()
+            .stream()
+            .filter(user -> user.getRole() == Role.ADMIN)
+            .toList();
+}
+
+public void deleteAdmin(Long id) {
+    User user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+    if (user.getRole() != Role.ADMIN) {
+        throw new RuntimeException("Only admins can be deleted");
+    }
+
+    userRepository.deleteById(id);
+}
+
+
+
 }

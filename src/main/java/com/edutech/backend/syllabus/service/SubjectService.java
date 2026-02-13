@@ -6,6 +6,8 @@ import com.edutech.backend.syllabus.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SubjectService {
@@ -27,4 +29,12 @@ public class SubjectService {
 
     return subjectRepository.save(subject);
 }
+
+//get subject by class
+public List<Subject> getSubjectsByClass(Integer classLevel) {
+    return subjectRepository.findByClassLevel(classLevel);
+}
+
+
+
 }
